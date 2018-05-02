@@ -8,6 +8,10 @@ https://docs.google.com/presentation/d/1ZG2Ddm0CsENai83vr_zMmdI55JGNdeJcq4qkMxDA
 
 Part List: http://www.digikey.com/short/j49w5f
 
+## Drivers for Windows/MacOSX Users
+
+https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers
+
 ## Agent
 
 https://developer.atmosphereiot.com/documents/downloads/atmosphereiotagent.html
@@ -16,6 +20,6 @@ https://developer.atmosphereiot.com/documents/downloads/atmosphereiotagent.html
 
 https://developer.atmosphereiot.com/documents/downloads/atmosphereiotapp.html
 
-## Drivers for Windows/MacOSX Users
+## Atmosphere IoT Platform
 
-https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers
+http://platform.atmosphereiot.com
