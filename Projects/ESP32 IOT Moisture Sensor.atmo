@@ -462,6 +462,18 @@
                 ],
                 "targetElement": "AnalogMeter",
                 "targetAbility": "setValue"
+              },
+              {
+                "mapping": {
+                  "text": {
+                    "code": "readData"
+                  }
+                },
+                "targetOrder": [
+                  "text"
+                ],
+                "targetElement": "Label",
+                "targetAbility": "setText"
               }
             ],
             "written": [],
