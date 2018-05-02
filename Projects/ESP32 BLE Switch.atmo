@@ -1,0 +1,390 @@
+{
+  "name": "ESP32 BLE Switch",
+  "createVersion": "2017-08-12",
+  "description": "New Project",
+  "lastModified": "2018-05-02T14:12:16.245Z",
+  "created": "2018-05-02T14:12:16.245Z",
+  "meta": {
+    "projectTypeName": "ESP32",
+    "projectTypeId": "esp32"
+  },
+  "planes": {
+    "ESP32": {
+      "type": "esp32",
+      "compilerVersion": "latest",
+      "variants": [],
+      "meta": {},
+      "elements": [
+        {
+          "name": "BLECharacteristicCustom",
+          "type": "EmbeddedBLECharacteristicCustom",
+          "variants": [
+            "embedded",
+            "triggers",
+            "abilities",
+            "properties",
+            "variables",
+            "ble"
+          ],
+          "properties": {
+            "errorData": null,
+            "code": {
+              "trigger": "\treturn ATMO_Status_Success;",
+              "setup": "\n\tATMO_BLE_GATTSAddService(\n\t\tATMO_PROPERTY(BLECharacteristicCustom, instance),\n\t\t&ATMO_VARIABLE(BLECharacteristicCustom, bleServiceHandle), \n\t\tATMO_PROPERTY(BLECharacteristicCustom, bleServiceUuid));\n\t\n\tuint8_t property = 0;\n\tuint8_t permission = 0;\n\t\n\tproperty |= ATMO_PROPERTY(BLECharacteristicCustom, read) ? ATMO_BLE_Property_Read : 0;\n\tproperty |= ATMO_PROPERTY(BLECharacteristicCustom, write) ? ATMO_BLE_Property_Write : 0;\n\tproperty |= ATMO_PROPERTY(BLECharacteristicCustom, notify) ? ATMO_BLE_Property_Notify : 0;\n\n\tpermission |= ATMO_PROPERTY(BLECharacteristicCustom, read) ? ATMO_BLE_Permission_Read : 0;\n\tpermission |= ATMO_PROPERTY(BLECharacteristicCustom, write) ? ATMO_BLE_Permission_Write : 0;\n\n\tATMO_DATATYPE types[3] = {ATMO_PROPERTY(BLECharacteristicCustom, writeDataType), ATMO_PROPERTY(BLECharacteristicCustom, readDataType), ATMO_PROPERTY(BLECharacteristicCustom, notifyDataType)};\n\t\n\tATMO_BLE_GATTSAddCharacteristic(\n\t\tATMO_PROPERTY(BLECharacteristicCustom, instance),\n\t\t&ATMO_VARIABLE(BLECharacteristicCustom, bleCharacteristicHandle), \n\t\tATMO_VARIABLE(BLECharacteristicCustom, bleServiceHandle), \n\t\tATMO_PROPERTY(BLECharacteristicCustom, bleCharacteristicUuid), \n\t\tproperty, permission, ATMO_GetMaxValueSize(3, 64, types));\n\t\n\tATMO_BLE_GATTSRegisterCharacteristicAbilityHandle(\n\t\tATMO_PROPERTY(BLECharacteristicCustom, instance),\n\t\tATMO_VARIABLE(BLECharacteristicCustom, bleCharacteristicHandle), \n\t\tATMO_BLE_Characteristic_Written, \n\t\tATMO_ABILITY(BLECharacteristicCustom, written));\n\t\n\treturn ATMO_Status_Success;\n\t",
+              "setValue": "\n\t\n\tATMO_BLE_GATTSSetCharacteristic(\n\t\tATMO_PROPERTY(BLECharacteristicCustom, instance),\n\t\tATMO_VARIABLE(BLECharacteristicCustom, bleCharacteristicHandle),\n\t\tin->size, \n\t\t(uint8_t *)in->data,\n\t\tNULL);\n\t\t\n\treturn ATMO_Status_Success;\n\t",
+              "written": "\n\tATMO_CreateValueConverted(out, ATMO_PROPERTY(BLECharacteristicCustom, writeDataType), in);\n\treturn ATMO_Status_Success;\n\t",
+              "subscibed": "\treturn ATMO_Status_Success;",
+              "unsubscribed": "\treturn ATMO_Status_Success;"
+            },
+            "variables": {
+              "bleServiceHandle": {
+                "type": "ATMO_BLE_Handle_t"
+              },
+              "bleCharacteristicHandle": {
+                "type": "ATMO_BLE_Handle_t"
+              }
+            },
+            "embeddedPropertyConversions": {
+              "bleServiceUuid": "string",
+              "bleCharacteristicUuid": "string"
+            },
+            "codeUserChanged": {
+              "setup": false,
+              "setValue": false,
+              "written": false,
+              "subscibed": false,
+              "unsubscribed": false
+            },
+            "instance": 0,
+            "bleServiceUuid": "3542c9ab-2703-4410-b704-a16d2ed8aa7b",
+            "bleCharacteristicUuid": "3542c9ab-2703-4410-b704-a16d2ed8aa7c",
+            "read": true,
+            "write": true,
+            "notify": false,
+            "readDataType": "ATMO_DATATYPE_VOID",
+            "writeDataType": "ATMO_DATATYPE_VOID",
+            "notifyDataType": "ATMO_DATATYPE_VOID"
+          },
+          "meta": {
+            "editorX": 100,
+            "editorY": 0,
+            "lastTrigger": "written"
+          },
+          "triggers": {
+            "triggered": [],
+            "written": [
+              {
+                "mapping": {},
+                "targetOrder": [],
+                "targetElement": "GPIOPin",
+                "targetAbility": "toggle"
+              }
+            ],
+            "subscibed": [],
+            "unsubscribed": []
+          },
+          "interruptAbilities": {
+            "trigger": false,
+            "setup": false,
+            "setValue": "valueSet",
+            "written": true,
+            "subscibed": true,
+            "unsubscribed": true
+          },
+          "abilities": [
+            {
+              "name": "trigger",
+              "triggers": [
+                "triggered"
+              ]
+            },
+            {
+              "name": "setup",
+              "triggers": []
+            },
+            {
+              "name": "setValue",
+              "triggers": []
+            },
+            {
+              "name": "written",
+              "triggers": [
+                "written"
+              ]
+            },
+            {
+              "name": "subscibed",
+              "triggers": [
+                "subscibed"
+              ]
+            },
+            {
+              "name": "unsubscribed",
+              "triggers": [
+                "unsubscribed"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GPIOPin",
+          "type": "EmbeddedGPIOPin",
+          "variants": [
+            "embedded",
+            "triggers",
+            "abilities",
+            "properties",
+            "variables"
+          ],
+          "properties": {
+            "errorData": null,
+            "code": {
+              "trigger": "\treturn ATMO_Status_Success;",
+              "setup": "\n\tATMO_GPIO_Config_t config;\n\tconfig.pinMode = ATMO_PROPERTY(GPIOPin, mode);\n\tconfig.initialState = ATMO_PROPERTY(GPIOPin, state);\n\tATMO_GPIO_SetPinConfiguration(ATMO_PROPERTY(GPIOPin, instance), ATMO_PROPERTY(GPIOPin, pin), &config);\n\n\t#if ATMO_PROPERTY(GPIOPin, interruptEnabled) == true\n\t\tATMO_GPIO_RegisterInterruptCallback(\n\t\t\tATMO_PROPERTY(GPIOPin, instance), \n\t\t\tATMO_PROPERTY(GPIOPin, pin), \n\t\t\tATMO_PROPERTY(GPIOPin, interruptMode), \n\t\t\tATMO_INTERRUPT(GPIOPin, interrupt));\n\t#endif\n\t\n\treturn ATMO_Status_Success;\n\t",
+              "setState": "\n\tbool state;\n\tATMO_GetBool(in, &state);\n\tATMO_GPIO_SetPinState(ATMO_PROPERTY(GPIOPin, instance), ATMO_PROPERTY(GPIOPin, pin), (ATMO_GPIO_PinState_t)state);\n\treturn ATMO_Status_Success;\n\t",
+              "read": "\n\tATMO_CreateValueBool(out, ATMO_GPIO_Read(ATMO_PROPERTY(GPIOPin, instance), ATMO_PROPERTY(GPIOPin, pin)));\n\treturn ATMO_Status_Success;\n\t",
+              "toggle": "\n\tATMO_GPIO_Toggle(ATMO_PROPERTY(GPIOPin, instance), ATMO_PROPERTY(GPIOPin, pin));\n\treturn ATMO_Status_Success;\n\t",
+              "interrupt": "\treturn ATMO_Status_Success;"
+            },
+            "variables": {},
+            "embeddedPropertyConversions": {},
+            "codeUserChanged": {
+              "setup": false,
+              "setState": false,
+              "read": false,
+              "toggle": false,
+              "interrupt": false
+            },
+            "instance": 0,
+            "pin": "IO13",
+            "mode": "ATMO_GPIO_PinMode_Output_PushPull",
+            "state": "ATMO_GPIO_PinState_Low",
+            "interruptEnabled": false,
+            "interruptMode": "ATMO_GPIO_InterruptTrigger_None"
+          },
+          "meta": {
+            "editorX": 200,
+            "editorY": 0,
+            "lastTrigger": "interrupt"
+          },
+          "triggers": {
+            "triggered": [],
+            "read": [],
+            "toggled": [],
+            "interrupt": []
+          },
+          "interruptAbilities": {
+            "trigger": false,
+            "setup": false,
+            "setState": false,
+            "read": false,
+            "toggle": false,
+            "interrupt": true
+          },
+          "abilities": [
+            {
+              "name": "trigger",
+              "triggers": [
+                "triggered"
+              ]
+            },
+            {
+              "name": "setup",
+              "triggers": []
+            },
+            {
+              "name": "setState",
+              "triggers": []
+            },
+            {
+              "name": "read",
+              "triggers": [
+                "read"
+              ]
+            },
+            {
+              "name": "toggle",
+              "triggers": [
+                "toggled"
+              ]
+            },
+            {
+              "name": "interrupt",
+              "triggers": [
+                "interrupt"
+              ]
+            }
+          ]
+        }
+      ],
+      "libraries": {},
+      "static": {
+        "header": "",
+        "footer": "",
+        "functions": {
+          "ATMO_Setup": {
+            "returnType": "void",
+            "code": "\n",
+            "arguments": []
+          }
+        }
+      }
+    },
+    "App View": {
+      "type": "app",
+      "compilerVersion": "latest",
+      "variants": [],
+      "meta": {
+        "appViewLayouts": {
+          "320": {
+            "560": true
+          }
+        }
+      },
+      "elements": [
+        {
+          "name": "BLECharacteristicCustom",
+          "type": "AppBLECharacteristicCustom",
+          "variants": [
+            "app",
+            "ble"
+          ],
+          "properties": {
+            "errorData": null,
+            "code": {
+              "trigger": "\treturn ATMO_Status_Success;",
+              "setup": "\n\tATMO_BLE_GATTSAddService(\n\t\tATMO_PROPERTY(BLECharacteristicCustom, instance),\n\t\t&ATMO_VARIABLE(BLECharacteristicCustom, bleServiceHandle), \n\t\tATMO_PROPERTY(BLECharacteristicCustom, bleServiceUuid));\n\t\n\tuint8_t property = 0;\n\tuint8_t permission = 0;\n\t\n\tproperty |= ATMO_PROPERTY(BLECharacteristicCustom, read) ? ATMO_BLE_Property_Read : 0;\n\tproperty |= ATMO_PROPERTY(BLECharacteristicCustom, write) ? ATMO_BLE_Property_Write : 0;\n\tproperty |= ATMO_PROPERTY(BLECharacteristicCustom, notify) ? ATMO_BLE_Property_Notify : 0;\n\n\tpermission |= ATMO_PROPERTY(BLECharacteristicCustom, read) ? ATMO_BLE_Permission_Read : 0;\n\tpermission |= ATMO_PROPERTY(BLECharacteristicCustom, write) ? ATMO_BLE_Permission_Write : 0;\n\n\tATMO_DATATYPE types[3] = {ATMO_PROPERTY(BLECharacteristicCustom, writeDataType), ATMO_PROPERTY(BLECharacteristicCustom, readDataType), ATMO_PROPERTY(BLECharacteristicCustom, notifyDataType)};\n\t\n\tATMO_BLE_GATTSAddCharacteristic(\n\t\tATMO_PROPERTY(BLECharacteristicCustom, instance),\n\t\t&ATMO_VARIABLE(BLECharacteristicCustom, bleCharacteristicHandle), \n\t\tATMO_VARIABLE(BLECharacteristicCustom, bleServiceHandle), \n\t\tATMO_PROPERTY(BLECharacteristicCustom, bleCharacteristicUuid), \n\t\tproperty, permission, ATMO_GetMaxValueSize(3, 64, types));\n\t\n\tATMO_BLE_GATTSRegisterCharacteristicAbilityHandle(\n\t\tATMO_PROPERTY(BLECharacteristicCustom, instance),\n\t\tATMO_VARIABLE(BLECharacteristicCustom, bleCharacteristicHandle), \n\t\tATMO_BLE_Characteristic_Written, \n\t\tATMO_ABILITY(BLECharacteristicCustom, written));\n\t\n\treturn ATMO_Status_Success;\n\t",
+              "setValue": "\n\t\n\tATMO_BLE_GATTSSetCharacteristic(\n\t\tATMO_PROPERTY(BLECharacteristicCustom, instance),\n\t\tATMO_VARIABLE(BLECharacteristicCustom, bleCharacteristicHandle),\n\t\tin->size, \n\t\t(uint8_t *)in->data,\n\t\tNULL);\n\t\t\n\treturn ATMO_Status_Success;\n\t",
+              "written": "\n\tATMO_CreateValueConverted(out, ATMO_PROPERTY(BLECharacteristicCustom, writeDataType), in);\n\treturn ATMO_Status_Success;\n\t",
+              "subscibed": "\treturn ATMO_Status_Success;",
+              "unsubscribed": "\treturn ATMO_Status_Success;"
+            },
+            "variables": {
+              "bleServiceHandle": {
+                "type": "ATMO_BLE_Handle_t"
+              },
+              "bleCharacteristicHandle": {
+                "type": "ATMO_BLE_Handle_t"
+              }
+            },
+            "embeddedPropertyConversions": {
+              "bleServiceUuid": "string",
+              "bleCharacteristicUuid": "string"
+            },
+            "codeUserChanged": {
+              "setup": false,
+              "setValue": false,
+              "written": false,
+              "subscibed": false,
+              "unsubscribed": false
+            },
+            "instance": 0,
+            "bleServiceUuid": "3542c9ab-2703-4410-b704-a16d2ed8aa7b",
+            "bleCharacteristicUuid": "3542c9ab-2703-4410-b704-a16d2ed8aa7c",
+            "read": true,
+            "write": true,
+            "notify": false,
+            "readDataType": "ATMO_DATATYPE_VOID",
+            "writeDataType": "ATMO_DATATYPE_VOID",
+            "notifyDataType": "ATMO_DATATYPE_VOID"
+          },
+          "meta": {
+            "editorX": 204,
+            "editorY": 0,
+            "lastTrigger": "read"
+          },
+          "triggers": {
+            "triggered": [],
+            "read": [],
+            "written": [],
+            "notification": [],
+            "indication": [],
+            "subscribed": [],
+            "unsubscribed": []
+          },
+          "coupledElementName": "BLECharacteristicCustom",
+          "coupledElementPlaneName": "ESP32"
+        },
+        {
+          "name": "Button",
+          "type": "AppUIButton",
+          "variants": [
+            "app",
+            "ui"
+          ],
+          "properties": {
+            "errorData": null,
+            "layouts": {
+              "320": {
+                "560": {
+                  "width": 100,
+                  "height": 100,
+                  "x": 103,
+                  "y": 47,
+                  "rotation": 0,
+                  "propertyOverlay": {}
+                }
+              }
+            },
+            "visible": true,
+            "labelText": "Toggle LED",
+            "labelFont": "18px Helvetica",
+            "labelColor": "black",
+            "pressedData": {
+              "x": 0,
+              "y": 0
+            },
+            "releasedData": {
+              "x": 0,
+              "y": 0
+            },
+            "overData": {
+              "x": 0,
+              "y": 0
+            },
+            "leftData": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "meta": {
+            "editorX": 52,
+            "editorY": 0,
+            "lastTrigger": "pressed"
+          },
+          "triggers": {
+            "triggered": [],
+            "pressed": [
+              {
+                "mapping": {
+                  "value": {
+                    "code": ""
+                  }
+                },
+                "targetOrder": [
+                  "value"
+                ],
+                "targetElement": "BLECharacteristicCustom",
+                "targetAbility": "write"
+              }
+            ],
+            "released": [],
+            "over": []
+          }
+        }
+      ]
+    },
+    "Cloud": {
+      "type": "cloud",
+      "compilerVersion": "latest",
+      "variants": [],
+      "meta": {},
+      "elements": [],
+      "layout": {
+        "height": 1000,
+        "width": 1000,
+        "zIndexOrder": []
+      }
+    }
+  }
+}
